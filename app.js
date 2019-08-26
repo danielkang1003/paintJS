@@ -3,11 +3,16 @@ const context = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
+const saveBtn = document.getElementById("jsSaveIMG");
 const INITIAL_COLOR = "#2c2c2c";
 const CANVAS_SIZE = 700;
 //실제 pixel modifier에 사이즈를 주어야함
 canvas.width = CANVAS_SIZE;   //css와 같이 width height 주기.
 canvas.height = CANVAS_SIZE;
+
+//canvas default to white
+context.fillStyle = "white";
+context.fillRect(0,0, canvas.width, canvas.height);
 
 context.strokeStyle =INITIAL_COLOR; //default color
 context.fillStyle = INITIAL_COLOR;
@@ -77,12 +82,28 @@ function handleCanvasClick(){
   }
 }
 
+function handleCM(event){
+  // console.log(event);
+  event.preventDefault(); //prevent right click on canvas
+}
+
+function handleSaveClick(){
+  const image = canvas.toDataURL();
+  // console.log(image);
+  const link = document.createElement("a");
+  link.href = image;  //href has to be an image
+  link.download = "PaintJS[Export]";  //the download has to be like this "name" of image
+  console.log(link);
+  link.click();
+}
+
 if(canvas){
   canvas.addEventListener("mousemove", onMouseMove);
   canvas.addEventListener("mousedown", startPainting);
   canvas.addEventListener("mouseup", stopPainting);
   canvas.addEventListener("mouseleave", stopPainting);
   canvas.addEventListener("click", handleCanvasClick);
+  canvas.addEventListener("contextmenu", handleCM);
 }
 
 Array.from(colors).forEach(color => color.addEventListener("click", handleColorClick));
@@ -93,4 +114,8 @@ if(range){
 
 if(mode){
   mode.addEventListener("click", handleModeClick);
+}
+
+if(saveBtn){
+  saveBtn.addEventListener("click", handleSaveClick);
 }
