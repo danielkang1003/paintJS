@@ -1,6 +1,7 @@
 const canvas = document.getElementById("jsCanvas");
 const context = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
+const range = document.getElementById("jsRange");
 //실제 pixel modifier에 사이즈를 주어야함
 canvas.width = 700;   //css와 같이 width height 주기.
 canvas.height = 700;
@@ -45,6 +46,13 @@ function handleColorClick(event){
   context.strokeStyle = color;
 }
 
+function handleRangeChange(event){
+  // console.log(event.target.value);
+  const size = event.target.value;
+  //override context of lineWidth
+  context.lineWidth = size;
+}
+
 if(canvas){
   canvas.addEventListener("mousemove", onMouseMove);
   canvas.addEventListener("mousedown", startPainting);
@@ -53,3 +61,7 @@ if(canvas){
 }
 
 Array.from(colors).forEach(color => color.addEventListener("click", handleColorClick));
+
+if(range){
+  range.addEventListener("input", handleRangeChange);
+}
