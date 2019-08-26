@@ -4,6 +4,8 @@ const colors = document.getElementsByClassName("jsColor");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
 const saveBtn = document.getElementById("jsSaveIMG");
+const resetBtn = document.getElementById("jsClear");
+
 const INITIAL_COLOR = "#2c2c2c";
 const CANVAS_SIZE = 700;
 //실제 pixel modifier에 사이즈를 주어야함
@@ -76,7 +78,7 @@ function handleModeClick(){
   }
 }
 
-function handleCanvasClick(){
+function handleCanvasClick(event){
   if(filling){
     context.fillRect(0,0, canvas.width, canvas.height);
   }
@@ -95,6 +97,10 @@ function handleSaveClick(){
   link.download = "PaintJS[Export]";  //the download has to be like this "name" of image
   console.log(link);
   link.click();
+}
+function handleCanvasClear(){
+  context.fillStyle = "white";
+  context.fillRect(0,0, canvas.width, canvas.height);
 }
 
 if(canvas){
@@ -118,4 +124,8 @@ if(mode){
 
 if(saveBtn){
   saveBtn.addEventListener("click", handleSaveClick);
+}
+
+if(resetBtn){
+  resetBtn.addEventListener("click", handleCanvasClear);
 }
